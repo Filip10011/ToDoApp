@@ -1,15 +1,16 @@
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
-const completed = document.querySelector(".completed");
-const uncompleted = document.querySelector(".uncompleted");
+const completed = document.querySelector(".completedOption");
+const uncompleted = document.querySelector(".uncompletedOption");
 const all = document.querySelector(".allOption");
 
 const allTodos = [];
 
-const addToDo = (e) => {
-  e.preventDefault();
-  if (todoInput.value.length <= 4) {
+const addTodo = (event) => {
+  event.preventDefault();
+
+  if (todoInput.value === "") {
     return;
   }
 
@@ -29,17 +30,17 @@ const addToDo = (e) => {
   completedButton.classList.add("complete-btn");
   todoDivEl.appendChild(completedButton);
 
-  const deleteButton = document.createElement("button");
-  deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-  deleteButton.classList.add("trash-btn");
-  todoDivEl.appendChild(deleteButton);
+  const trashButton = document.createElement("button");
+  trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+  trashButton.classList.add("trash-btn");
+  todoDivEl.appendChild(trashButton);
 
-  todoList.appendChild(todoDivEl);
   todoInput.value = "";
+  todoList.appendChild(todoDivEl);
 };
 
-const deleteToDo = (e) => {
-  const element = e.target;
+const deleteTodo = (event) => {
+  const element = event.target;
 
   if (element.classList[0] === "trash-btn") {
     const todo = element.parentElement;
@@ -48,6 +49,7 @@ const deleteToDo = (e) => {
       todo.remove();
     });
   }
+
   if (element.classList[0] === "complete-btn") {
     const todo = element.parentElement;
     todo.classList.toggle("completed");
@@ -80,8 +82,8 @@ const filterTodo = (event) => {
   });
 };
 
-todoButton.addEventListener("click", addToDo);
-todoList.addEventListener("click", deleteToDo);
+todoButton.addEventListener("click", addTodo);
+todoList.addEventListener("click", deleteTodo);
 completed.addEventListener("click", filterTodo);
 uncompleted.addEventListener("click", filterTodo);
 all.addEventListener("click", filterTodo);
